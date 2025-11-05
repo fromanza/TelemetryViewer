@@ -90,14 +90,24 @@ This document tracks planned improvements, bug fixes, and feature requests for t
 - Background export thread
 
 #### #42 - Custom X-Axis from data stream
-**Status:** Open  
+**Status:** ✅ Completed  
 **Description:** Use a dataset value as X-axis instead of time/sample count  
 **Use Case:** Plotting one dataset vs another over time (e.g., voltage vs current, creating XY trajectory plots)  
 **Implementation:** 
-- New chart type: "XY Plot" or add option to "Time Domain"
+- New chart type: "XY Plot" added to chart types
 - New `PlotDatasetXAxis` class (similar to `PlotMilliseconds` but uses dataset values instead of timestamps)
-- Widget to select X-axis dataset
+- New `OpenGLXYChart` class for XY plot rendering
+- `WidgetXAxisDataset` widget to select X-axis dataset
 - Uses `OpenGL.drawLinesX_Y()` for rendering
+- Sample count/duration control for number of samples to display
+- Square scale (1:1 aspect ratio) option for maintaining equal scaling
+- Full X-axis and Y-axis scales with labels and gridlines
+
+**Location:** 
+- `src/PlotDatasetXAxis.java` - Plot implementation for dataset-based X-axis
+- `src/OpenGLXYChart.java` - Chart rendering and widget management
+- `src/WidgetXAxisDataset.java` - X-axis dataset selection widget
+- `src/ChartsController.java` - Chart type registration
 
 **Note:** Different from Acceleration Meter:
 - **Acceleration Meter**: Shows current X,Y position as a point on a 2D meter (live indicator)
@@ -210,7 +220,6 @@ This document tracks planned improvements, bug fixes, and feature requests for t
 ### P1 - High-Value Features
 - #54 - Periodic export
 - #50 - Annotations
-- #42 - Custom X-axis
 - #26 - int32/float64 support
 
 ### P2 - Nice-to-Have
@@ -238,7 +247,6 @@ This document tracks planned improvements, bug fixes, and feature requests for t
 ### Medium Complexity
 1. **#54 - Periodic export:** Extend existing export system with timer
 2. **#50 - Annotations:** Add new widget type and rendering code
-3. **#42 - Custom X-axis:** Modify chart rendering to support dataset as X-axis
 
 ### High Complexity
 1. **#26 - int32/float64:** Add new binary processors (requires testing)
@@ -284,7 +292,7 @@ When adding new items, use this format:
 ### Phase 2: Core Features
 - Periodic export (#54)
 - Annotations (#50)
-- Custom X-axis (#42)
+- ✅ Custom X-axis (#42) - **Completed**
 
 ### Phase 3: Protocol Enhancements
 - int32/float64 support (#26)
