@@ -1,1 +1,100 @@
-/bin/
+# Build outputs
+out/
+*.class
+*.jar
+*.war
+*.ear
+
+# Generated manifest
+manifest.txt
+
+# Temporary build directories
+temp-jar/
+*.tmp
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+bin/
+.metadata
+
+# IDE - VS Code
+.vscode/
+*.code-workspace
+
+# IDE - NetBeans
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# OS - Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# OS - macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# OS - Linux
+*~
+.directory
+.Trash-*
+
+# Logs
+*.log
+logs/
+
+# Cache directories
+cache/
+.cache/
+
+# Backup files
+*.bak
+*.swp
+*~
+*.orig
+
+# Compiled source files
+*.com
+*.exe
+*.o
+*.so
+*.dll
+
+# Package files
+*.dmg
+*.pkg
+
+# Java specific
+hs_err_pid*
+replay_pid*
+
+# Maven (if you add it later)
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Gradle (if you add it later)
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
