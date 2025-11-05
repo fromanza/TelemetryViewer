@@ -59,6 +59,8 @@ $RECYCLE.BIN/
 # Logs
 *.log
 logs/
+# Keep telemetry-viewer.log for debugging (user can delete manually if needed)
+# telemetry-viewer.log
 
 # Cache directories
 cache/

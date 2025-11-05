@@ -78,16 +78,16 @@ public class DatasetsController {
 			@Override public String getJavaTypeName()                      { return "Short"; }
 			@Override public boolean isLittleEndian()                      { return true; }
 			@Override public int getByteCount()                            { return 2; }
-			@Override public float extractValue(byte[] buffer, int offset) { return (float)(short) (((0xFF & buffer[0+offset]) << 0) |
-					                                                                                ((0xFF & buffer[1+offset]) << 8)); }
+			@Override public float extractValue(byte[] buffer, int offset) { return (float) ((short) ((buffer[0+offset] & 0xFF) |
+					                                                                                (buffer[1+offset] << 8))); }
 		};
 		binaryFieldProcessors[7] = new BinaryFieldProcessor() {
 			@Override public String toString()                             { return "int16 MSB First"; }
 			@Override public String getJavaTypeName()                      { return "Short"; }
 			@Override public boolean isLittleEndian()                      { return false; }
 			@Override public int getByteCount()                            { return 2; }
-			@Override public float extractValue(byte[] buffer, int offset) { return (float)(short) (((0xFF & buffer[1+offset]) << 0) |
-			                                                                                        ((0xFF & buffer[0+offset]) << 8)); }
+			@Override public float extractValue(byte[] buffer, int offset) { return (float) ((short) ((buffer[1+offset] & 0xFF) |
+			                                                                                        (buffer[0+offset] << 8))); }
 		};
 		binaryFieldProcessors[8] = new BinaryFieldProcessor() {
 			@Override public String toString()                             { return "float32 LSB First"; }

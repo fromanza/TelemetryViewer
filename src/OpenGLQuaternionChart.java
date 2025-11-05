@@ -48,7 +48,7 @@ public class OpenGLQuaternionChart extends PositionedChart {
 		
 		duration = 1;
 		
-		shape = ChartUtils.getShapeFromAsciiStl(getClass().getResourceAsStream("monkey.stl"));
+		shape = ChartUtils.getShapeFromAsciiStl(getClass().getResourceAsStream("/resources/monkey.stl"));
 		
 		// create the control widgets and event handlers
 		datasetsWidget = new WidgetDatasets(newDatasets -> datasets.setNormals(newDatasets),

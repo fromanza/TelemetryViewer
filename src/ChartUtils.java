@@ -454,7 +454,14 @@ public class ChartUtils {
 		int stringLength = text.charAt(0) == '-' ? digitCount + 2 : digitCount + 1;
 		if(text.charAt(stringLength - 1) == '.')
 			stringLength--;
-		return text.substring(0, pointLocation < stringLength ? stringLength : pointLocation);
+		
+		int endIndex = pointLocation < stringLength ? stringLength : pointLocation;
+		if(text.length() > endIndex) {
+			return text.substring(0, endIndex);
+		} else {
+			// String is shorter than expected, return what we have
+			return text;
+		}
 		
 	}
 	

@@ -72,11 +72,18 @@ public class Main {
 	@SuppressWarnings("serial")
 	public static void main(String[] args) {
 		
-		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e){}
+		// Initialize file logging first (captures all output/errors)
+		FileLogger.initialize();
+		
+		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e){
+			FileLogger.logException("Failed to set look and feel", e);
+		}
 		
 		// create the cache folder
 		Path cacheDir = Paths.get("cache");
-		try { Files.createDirectory(cacheDir); } catch(FileAlreadyExistsException e) {} catch(Exception e) { e.printStackTrace(); }
+		try { Files.createDirectory(cacheDir); } catch(FileAlreadyExistsException e) {} catch(Exception e) {
+			FileLogger.logException("Failed to create cache directory", e);
+		}
 		
 		// populate the window
 		window.setLayout(new BorderLayout());
@@ -110,7 +117,7 @@ public class Main {
 					ConnectionsController.importFiles(filepaths);
 				} catch(Exception e) {
 					NotificationsController.showFailureUntil("Error while processing files: " + e.getMessage(), () -> false, true);
-					e.printStackTrace();
+					FileLogger.logException("Error while processing dropped files", e);
 				}
 			}
 		});
@@ -140,6 +147,7 @@ public class Main {
 				try { Files.deleteIfExists(cacheDir); } catch(Exception e) { }
 				
 				// die
+				FileLogger.close();
 				window.dispose();
 				System.exit(0);
 				
