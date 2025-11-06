@@ -54,6 +54,14 @@ public class ConnectionTelemetry extends Connection {
 	
 	static List<String> names = new ArrayList<String>();
 	static {
+		rescanPorts();
+	}
+	
+	/**
+	 * Rescans for available COM ports and updates the names list.
+	 */
+	public static void rescanPorts() {
+		names.clear();
 		for(SerialPort port : SerialPort.getCommPorts())
 			names.add("UART: " + port.getSystemPortName());
 		Collections.sort(names);
@@ -293,7 +301,11 @@ public class ConnectionTelemetry extends Connection {
 		connectionNamesCombobox.setMinimumSize(connectionNamesCombobox.getPreferredSize());
 		connectionNamesCombobox.addActionListener(event -> {
 			
-			String newConnectionName = connectionNamesCombobox.getSelectedItem().toString();
+			Object selectedItem = connectionNamesCombobox.getSelectedItem();
+			if(selectedItem == null)
+				return;
+			
+			String newConnectionName = selectedItem.toString();
 			if(newConnectionName.equals(name))
 				return;
 			
@@ -359,6 +371,30 @@ public class ConnectionTelemetry extends Connection {
 
 			CommunicationView.instance.redraw();
 			
+		});
+		
+		// rescan button
+		JButton rescanButton = new JButton("Rescan");
+		rescanButton.setToolTipText("Rescan for available COM ports");
+		rescanButton.addActionListener(event -> {
+			String currentSelection = connectionNamesCombobox.getSelectedItem() != null ? connectionNamesCombobox.getSelectedItem().toString() : null;
+			rescanPorts();
+			List<String> updatedNames = ConnectionsController.getNames();
+			connectionNamesCombobox.removeAllItems();
+			for(String portName : updatedNames)
+				connectionNamesCombobox.addItem(portName);
+			connectionNamesCombobox.setMaximumRowCount(Math.max(connectionNamesCombobox.getItemCount(), 1));
+			// Try to restore previous selection if it still exists
+			String itemToSelect = null;
+			if(currentSelection != null && updatedNames.contains(currentSelection))
+				itemToSelect = currentSelection;
+			else if(updatedNames.contains(name))
+				itemToSelect = name;
+			else if(connectionNamesCombobox.getItemCount() > 0)
+				itemToSelect = connectionNamesCombobox.getItemAt(0);
+			if(itemToSelect != null)
+				connectionNamesCombobox.setSelectedItem(itemToSelect);
+			CommunicationView.instance.redraw();
 		});
 		
 		// baud rate (only used in UART mode)
@@ -450,6 +486,7 @@ public class ConnectionTelemetry extends Connection {
 			panel.add(packetTypeCombobox);
 			panel.add(baudRateCombobox);
 			panel.add(connectionNamesCombobox);
+			panel.add(rescanButton);
 			panel.add(connectButton);
 			panel.add(removeButton);
 		} else if(mode == Mode.TCP || mode == Mode.UDP) {
@@ -457,6 +494,7 @@ public class ConnectionTelemetry extends Connection {
 			panel.add(packetTypeCombobox);
 			panel.add(portNumberCombobox);
 			panel.add(connectionNamesCombobox);
+			panel.add(rescanButton);
 			panel.add(connectButton);
 			panel.add(removeButton);
 		} else {
@@ -464,6 +502,7 @@ public class ConnectionTelemetry extends Connection {
 			panel.add(sampleRateTextfield);
 			panel.add(packetTypeCombobox);
 			panel.add(connectionNamesCombobox);
+			panel.add(rescanButton);
 			panel.add(connectButton);
 			panel.add(removeButton);
 		}
@@ -475,6 +514,7 @@ public class ConnectionTelemetry extends Connection {
 		connectionNamesCombobox.setEnabled(!importingOrExporting && !connected);
 		baudRateCombobox.setEnabled(!importingOrExporting && !connected);
 		portNumberCombobox.setEnabled(!importingOrExporting && !connected);
+		rescanButton.setEnabled(!importingOrExporting && !connected);
 		connectButton.setEnabled(!importingOrExporting);
 		
 		return panel;
