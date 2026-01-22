@@ -80,7 +80,7 @@ public class ConnectionTelemetry extends Connection {
 	public enum PacketType {CSV, BINARY, TC66};
 	public volatile PacketType packetType = PacketType.CSV;
 	public volatile int sampleRate = 1000;
-	public volatile int baudRate = 9600; // for UART mode
+	public volatile int baudRate = 115200; // for UART mode
 	public volatile int portNumber = 8080; // for TCP/UDP modes
 	
 	public volatile boolean dataStructureDefined = false;

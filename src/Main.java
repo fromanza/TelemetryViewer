@@ -73,7 +73,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// Initialize file logging first (captures all output/errors)
-		FileLogger.initialize();
+		// FileLogger.initialize(); // Disabled - too verbose
 		
 		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); } catch(Exception e){
 			FileLogger.logException("Failed to set look and feel", e);
@@ -147,7 +147,7 @@ public class Main {
 				try { Files.deleteIfExists(cacheDir); } catch(Exception e) { }
 				
 				// die
-				FileLogger.close();
+				// FileLogger.close(); // Disabled - logging is off
 				window.dispose();
 				System.exit(0);
 				
